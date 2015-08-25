@@ -1,4 +1,4 @@
-package com.popularmovies.popularmovies;
+package com.popularmovies;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
