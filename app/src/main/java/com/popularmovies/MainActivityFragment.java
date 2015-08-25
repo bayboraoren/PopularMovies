@@ -1,5 +1,6 @@
 package com.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.popularmovies.service.MovieService;
 import com.squareup.picasso.Picasso;
 
 
@@ -28,6 +30,10 @@ public class MainActivityFragment extends Fragment {
         Picasso.with(getActivity())
                 .load("https://cms-assets.tutsplus.com/uploads/users/21/posts/19431/featured_image/CodeFeature.jpg")
                 .into(imageView);
+
+
+        Intent intent = new Intent(getActivity(), MovieService.class);
+        getActivity().startService(intent);
 
 
         return view;
