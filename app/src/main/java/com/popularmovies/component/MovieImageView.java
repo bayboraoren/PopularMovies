@@ -8,17 +8,18 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /** An image view which always remains square with respect to its width. */
-public final class SquaredImageView extends ImageView {
-    public SquaredImageView(Context context) {
+public final class MovieImageView extends ImageView {
+    public MovieImageView(Context context) {
         super(context);
     }
 
-    public SquaredImageView(Context context, AttributeSet attrs) {
+    public MovieImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth());
+        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MEASURED_SIZE_MASK, MeasureSpec.AT_MOST));
     }
+
+
 }

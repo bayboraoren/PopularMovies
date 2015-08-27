@@ -3,54 +3,62 @@ package com.popularmovies.component;
 /**
  * Created by bora on 27.08.2015.
  */
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Transformation;
 import android.widget.BaseAdapter;
 
 import com.popularmovies.R;
+import com.popularmovies.domain.Movie;
+import com.popularmovies.domain.Movies;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static android.widget.ImageView.ScaleType.CENTER_CROP;
 
-public final class SampleGridViewAdapter extends BaseAdapter {
+public final class MovieViewAdapter extends BaseAdapter {
     private final Context context;
-    private final List<String> urls = new ArrayList<String>();
+    private List<Movie> urls = new ArrayList<>();
 
-    public SampleGridViewAdapter(Context context) {
+    public MovieViewAdapter(Context context) {
         this.context = context;
 
-        // Ensure we get a different ordering of images on each run.
-        Collections.addAll(urls, Data.URLS);
-        Collections.shuffle(urls);
-
         // Triple up the list.
-        ArrayList<String> copy = new ArrayList<String>(urls);
+        /*ArrayList<String> copy = new ArrayList<String>(urls);
         urls.addAll(copy);
-        urls.addAll(copy);
+        urls.addAll(copy);*/
+    }
+
+    public void  addMovies(Movies movies){
+        urls = movies.getResults();
+        notifyDataSetChanged();
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {
-        SquaredImageView view = (SquaredImageView) convertView;
+        MovieImageView view = (MovieImageView) convertView;
         if (view == null) {
-            view = new SquaredImageView(context);
+            view = new MovieImageView(context);
             view.setScaleType(CENTER_CROP);
         }
 
         // Get the image URL for the current position.
-        String url = getItem(position);
+        Movie movie =  getItem(position);
+        String url = "http://image.tmdb.org/t/p/w185/" + movie.getPosterPath();
 
         // Trigger the download of the URL asynchronously into the image view.
         Picasso.with(context) //
                 .load(url) //
                 .placeholder(R.drawable.placeholder) //
+                .fit()
                 .error(R.drawable.error) //
-                .fit() //
-                .tag(context) //
                 .into(view);
+
 
         return view;
     }
@@ -59,11 +67,14 @@ public final class SampleGridViewAdapter extends BaseAdapter {
         return urls.size();
     }
 
-    @Override public String getItem(int position) {
+    @Override public Movie getItem(int position) {
         return urls.get(position);
     }
 
     @Override public long getItemId(int position) {
         return position;
     }
+
+
+
 }

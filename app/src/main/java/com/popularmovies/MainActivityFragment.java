@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.popularmovies.component.SampleGridViewAdapter;
-import com.popularmovies.component.SampleScrollListener;
+import com.popularmovies.component.MovieViewAdapter;
+import com.popularmovies.component.MovieScrollListener;
+import com.popularmovies.task.MobileTask;
 
 
 /**
@@ -25,10 +26,16 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        MovieViewAdapter movieViewAdapter = new MovieViewAdapter(getActivity());
+        MobileTask mobileTask = new MobileTask(movieViewAdapter);
+        mobileTask.execute();
 
         GridView gv = (GridView) view.findViewById(R.id.grid_view);
-        gv.setAdapter(new SampleGridViewAdapter(getActivity()));
-        gv.setOnScrollListener(new SampleScrollListener(getActivity()));
+        gv.setAdapter(movieViewAdapter);
+        gv.setOnScrollListener(new MovieScrollListener(getActivity()));
+
+
+
 
 
         /*Intent intent = new Intent(getActivity(), MovieService.class);

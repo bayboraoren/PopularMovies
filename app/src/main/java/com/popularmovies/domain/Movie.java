@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,20 +36,26 @@ public class Movie {
     @JsonProperty("adult")
     private Boolean adult;
     @JsonProperty("backdrop_path")
+    @SerializedName("backdrop_path")
     private String backdropPath;
     @JsonProperty("genre_ids")
+    @SerializedName("genre_ids")
     private List<Integer> genreIds = new ArrayList<Integer>();
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("original_language")
+    @SerializedName("original_language")
     private String originalLanguage;
     @JsonProperty("original_title")
+    @SerializedName("original_title")
     private String originalTitle;
     @JsonProperty("overview")
     private String overview;
     @JsonProperty("release_date")
+    @SerializedName("release_date")
     private String releaseDate;
     @JsonProperty("poster_path")
+    @SerializedName("poster_path")
     private String posterPath;
     @JsonProperty("popularity")
     private Double popularity;
@@ -57,8 +64,10 @@ public class Movie {
     @JsonProperty("video")
     private Boolean video;
     @JsonProperty("vote_average")
+    @SerializedName("vote_average")
     private Double voteAverage;
     @JsonProperty("vote_count")
+    @SerializedName("vote_count")
     private Integer voteCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

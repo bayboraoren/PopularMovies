@@ -8,10 +8,10 @@ import android.widget.AbsListView;
 
 import com.squareup.picasso.Picasso;
 
-public class SampleScrollListener implements AbsListView.OnScrollListener {
+public class MovieScrollListener implements AbsListView.OnScrollListener {
     private final Context context;
 
-    public SampleScrollListener(Context context) {
+    public MovieScrollListener(Context context) {
         this.context = context;
     }
 
