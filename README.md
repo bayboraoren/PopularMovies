@@ -10,3 +10,6 @@ http://stackoverflow.com/questions/24440852/how-to-import-recyclerview-for-andro
 http://code.tutsplus.com/tutorials/android-sdk-working-with-picasso--cms-22149
 http://www.jsonschema2pojo.org/
 https://github.com/google/gson
+http://www.101apps.co.za/articles/gridview-tutorial-using-the-picasso-library.html
+https://github.com/square/picasso
+
