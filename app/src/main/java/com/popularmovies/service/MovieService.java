@@ -93,9 +93,6 @@ public class MovieService extends IntentService{
             forecastJsonStr = buffer.toString();
             Movies movies = JsonUtility.jsonToMovies(forecastJsonStr);
             List<Movie> movieList = movies.getResults();
-            for (Movie movie: movieList){
-                System.out.println(movie.getTitle());
-            }
 
 
         } catch (IOException e) {
