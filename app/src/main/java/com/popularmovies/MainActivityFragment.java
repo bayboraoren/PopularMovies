@@ -1,15 +1,14 @@
 package com.popularmovies;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.GridView;
 
-import com.popularmovies.service.MovieService;
-import com.squareup.picasso.Picasso;
+import com.popularmovies.component.SampleGridViewAdapter;
+import com.popularmovies.component.SampleScrollListener;
 
 
 /**
@@ -26,14 +25,14 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ImageView imageView = (ImageView)view.findViewById(R.id.imageView);
-        Picasso.with(getActivity())
-                .load("https://cms-assets.tutsplus.com/uploads/users/21/posts/19431/featured_image/CodeFeature.jpg")
-                .into(imageView);
+
+        GridView gv = (GridView) view.findViewById(R.id.grid_view);
+        gv.setAdapter(new SampleGridViewAdapter(getActivity()));
+        gv.setOnScrollListener(new SampleScrollListener(getActivity()));
 
 
-        Intent intent = new Intent(getActivity(), MovieService.class);
-        getActivity().startService(intent);
+        /*Intent intent = new Intent(getActivity(), MovieService.class);
+        getActivity().startService(intent);*/
 
 
         return view;
