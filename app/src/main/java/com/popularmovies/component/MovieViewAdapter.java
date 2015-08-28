@@ -28,11 +28,6 @@ public final class MovieViewAdapter extends BaseAdapter {
 
     public MovieViewAdapter(Context context) {
         this.context = context;
-
-        // Triple up the list.
-        /*ArrayList<String> copy = new ArrayList<String>(urls);
-        urls.addAll(copy);
-        urls.addAll(copy);*/
     }
 
     public void  addMovies(Movies movies){
@@ -41,8 +36,12 @@ public final class MovieViewAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+
     @Override public View getView(int position, View convertView, ViewGroup parent) {
+
+
         MovieImageView view = (MovieImageView) convertView;
+
         if (view == null) {
             view = new MovieImageView(context);
             view.setScaleType(CENTER_CROP);
