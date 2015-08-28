@@ -36,8 +36,9 @@ public final class MovieViewAdapter extends BaseAdapter {
     }
 
     public void  addMovies(Movies movies){
-        urls = movies.getResults();
-        notifyDataSetChanged();
+        urls.clear();
+        urls.addAll(movies.getResults());
+        this.notifyDataSetChanged();
     }
 
     @Override public View getView(int position, View convertView, ViewGroup parent) {

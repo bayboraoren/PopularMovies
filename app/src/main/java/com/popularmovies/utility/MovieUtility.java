@@ -1,5 +1,6 @@
 package com.popularmovies.utility;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -21,7 +22,8 @@ public class MovieUtility {
 
     public static final String LOG_TAG = MovieUtility.class.getSimpleName();
 
-    public static final Movies getMovies(){
+
+    public static final Movies getMovies(Context context){
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;
@@ -30,7 +32,9 @@ public class MovieUtility {
         // Will contain the raw JSON response as a string.
         String forecastJsonStr = null;
 
-        String sortOrder = "popularity.desc";
+        String sortBy = CommonUtility.getPreferredSortBy(context);
+
+        String sortOrder = sortBy;
         String apiKey = "c8d8be2cdf2ddd5cb31cf3a04460210c";
 
         try {

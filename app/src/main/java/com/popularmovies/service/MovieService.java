@@ -37,7 +37,7 @@ public class MovieService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        MovieUtility.getMovies();
+        MovieUtility.getMovies(this.getApplicationContext());
 
         return;
     }
