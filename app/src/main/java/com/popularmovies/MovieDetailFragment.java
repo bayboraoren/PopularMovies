@@ -84,9 +84,13 @@ public class MovieDetailFragment extends Fragment {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
 
+
+                getActivity().getSupportFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.container, new MovieFragment())
+                        .addToBackStack(null)
                         .commit();
+
 
 
                 return true;
@@ -99,5 +103,9 @@ public class MovieDetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), true);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
     }
 }

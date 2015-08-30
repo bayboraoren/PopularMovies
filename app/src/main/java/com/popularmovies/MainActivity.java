@@ -1,22 +1,32 @@
 package com.popularmovies;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.popularmovies.utility.ActionBarUtility;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private Fragment mContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new MovieFragment())
-                .commit();
+        if(savedInstanceState == null){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new MovieFragment())
+                    .addToBackStack(null)
+                    .commit();
+        }
+
 
 
     }
@@ -27,11 +37,12 @@ public class MainActivity extends ActionBarActivity {
 
         ActionBarUtility.actionBarVisible(getSupportActionBar(), false);
 
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             this.finish();
         } else {
             getSupportFragmentManager().popBackStack();
         }
     }
+
 
 }

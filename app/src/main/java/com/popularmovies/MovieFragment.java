@@ -116,6 +116,4 @@ public class MovieFragment extends Fragment {
         update();
     }
 
-
-
 }
