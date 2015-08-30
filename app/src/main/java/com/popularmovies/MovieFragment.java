@@ -38,7 +38,6 @@ public class MovieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(),false);
     }
 
     @Override
@@ -113,6 +112,7 @@ public class MovieFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), false);
         update();
     }
 
