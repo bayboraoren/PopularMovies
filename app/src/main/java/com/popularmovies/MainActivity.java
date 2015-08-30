@@ -3,6 +3,8 @@ package com.popularmovies;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import com.popularmovies.utility.ActionBarUtility;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -14,11 +16,16 @@ public class MainActivity extends ActionBarActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, new MovieFragment())
                 .commit();
+
+
     }
 
 
     @Override
     public void onBackPressed() {
+
+        ActionBarUtility.actionBarVisible(getSupportActionBar(), false);
+
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             this.finish();
         } else {
