@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +18,7 @@ import com.popularmovies.component.MovieScrollListener;
 import com.popularmovies.component.MovieViewAdapter;
 import com.popularmovies.domain.Movie;
 import com.popularmovies.task.MobileTask;
+import com.popularmovies.utility.ActionBarUtility;
 
 
 /**
@@ -36,6 +38,7 @@ public class MovieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(),false);
     }
 
     @Override
@@ -81,7 +84,7 @@ public class MovieFragment extends Fragment {
                 movieDetailFragment.setArguments(args);
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, movieDetailFragment,MovieDetailFragment.TAG_FRAGMENT);
+                fragmentTransaction.replace(R.id.container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
