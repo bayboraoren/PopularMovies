@@ -15,19 +15,20 @@ import android.widget.GridView;
 
 import com.popularmovies.component.MovieScrollListener;
 import com.popularmovies.component.MovieViewAdapter;
+import com.popularmovies.domain.Movie;
 import com.popularmovies.task.MobileTask;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MovieFragment extends Fragment {
 
     private MovieViewAdapter movieViewAdapter;
     private boolean isSettingsSelected=false;
     private GridView gv;
 
-    public MainActivityFragment() {
+    public MovieFragment() {
 
     }
 
@@ -73,8 +74,14 @@ public class MainActivityFragment extends Fragment {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+                Bundle args = new Bundle();
+                args.putParcelable(Movie.PARCEABLE_KEY, movieViewAdapter.getItem(i));
+                movieDetailFragment.setArguments(args);
+
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.container, new MovieDetailFragment(),MovieDetailFragment.TAG_FRAGMENT);
+                fragmentTransaction.replace(R.id.container, movieDetailFragment,MovieDetailFragment.TAG_FRAGMENT);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

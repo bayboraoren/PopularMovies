@@ -1,6 +1,10 @@
 
 package com.popularmovies.domain;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,7 +35,9 @@ import java.util.Map;
     "vote_average",
     "vote_count"
 })
-public class Movie {
+public class Movie implements Parcelable {
+
+    public static final String PARCEABLE_KEY = "movie";
 
     @JsonProperty("adult")
     private Boolean adult;
@@ -71,6 +77,8 @@ public class Movie {
     private Integer voteCount;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    private Bitmap moviePoster;
 
     /**
      * 
@@ -362,4 +370,52 @@ public class Movie {
         this.additionalProperties.put(name, value);
     }
 
+    public Bitmap getMoviePoster() {
+        return moviePoster;
+    }
+
+    public void setMoviePoster(Bitmap moviePoster) {
+        this.moviePoster = moviePoster;
+    }
+
+    //PARCEABLE
+
+    public Movie() {
+
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.overview);
+        dest.writeString(this.releaseDate);
+        dest.writeString(this.posterPath);
+        dest.writeString(this.title);
+        dest.writeValue(this.voteAverage);
+    }
+
+    protected Movie(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.overview = in.readString();
+        this.releaseDate = in.readString();
+        this.posterPath = in.readString();
+        this.title = in.readString();
+        this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 }
