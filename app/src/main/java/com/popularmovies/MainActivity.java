@@ -1,6 +1,7 @@
 package com.popularmovies;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 
 import com.popularmovies.utility.ActionBarUtility;
@@ -14,7 +15,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, new MovieFragment())
+                .replace(R.id.container, new MovieFragment())
                 .commit();
 
 

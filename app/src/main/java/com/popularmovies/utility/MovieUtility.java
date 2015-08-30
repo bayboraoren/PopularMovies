@@ -26,7 +26,7 @@ public class MovieUtility {
 
     public static final Bitmap getMovieDetailPoster(String posterPath){
 
-        String urlDisplay = "http://image.tmdb.org/t/p/w300/"+posterPath;
+        String urlDisplay = "http://image.tmdb.org/t/p/w370/"+posterPath;
         Bitmap moviePoster = null;
         try {
             InputStream in = new java.net.URL(urlDisplay ).openStream();
