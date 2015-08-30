@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.popularmovies.domain.Movie;
+import com.popularmovies.task.MovieDetailPosterTask;
 import com.popularmovies.utility.ActionBarUtility;
 
 /**
@@ -44,11 +45,12 @@ public class MovieDetailFragment extends Fragment {
 
         Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
 
-
         //Poster Image
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_poster);
-        imageView.setImageBitmap(movie.getMoviePoster());
+        MovieDetailPosterTask movieDetailPosterTask = new MovieDetailPosterTask(imageView);
+        movieDetailPosterTask.execute(movie.getPosterPath());
+
 
         //Title
         TextView title = (TextView) view.findViewById(R.id.movie_title);

@@ -1,6 +1,8 @@
 package com.popularmovies.utility;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
@@ -21,6 +23,19 @@ import java.util.List;
 public class MovieUtility {
 
     public static final String LOG_TAG = MovieUtility.class.getSimpleName();
+
+    public static final Bitmap getMovieDetailPoster(String posterPath){
+
+        String urlDisplay = "http://image.tmdb.org/t/p/w300/"+posterPath;
+        Bitmap moviePoster = null;
+        try {
+            InputStream in = new java.net.URL(urlDisplay ).openStream();
+            moviePoster = BitmapFactory.decodeStream(in);
+        } catch (Exception e) {
+            Log.e(LOG_TAG, e.getMessage());
+        }
+        return moviePoster;
+    }
 
 
     public static final Movies getMovies(Context context){
