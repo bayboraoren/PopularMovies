@@ -2,6 +2,7 @@ package com.popularmovies.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.GridView;
 
 import com.popularmovies.component.MovieViewAdapter;
 import com.popularmovies.domain.Movies;
@@ -12,12 +13,14 @@ import com.popularmovies.utility.MovieUtility;
  */
 public class MobileTask extends AsyncTask<Void,Void,Movies>{
 
-    private MovieViewAdapter movieViewAdapter;
     private Context context;
+    private GridView gv;
+    private int position;
 
-    public MobileTask(MovieViewAdapter movieViewAdapter,Context context){
-        this.movieViewAdapter = movieViewAdapter;
+    public MobileTask(Context context,GridView gv,int position){
         this.context = context;
+        this.gv = gv;
+        this.position = position;
     }
 
 
@@ -28,6 +31,8 @@ public class MobileTask extends AsyncTask<Void,Void,Movies>{
 
     @Override
     protected void onPostExecute(Movies movies) {
+        MovieViewAdapter movieViewAdapter = (MovieViewAdapter)gv.getAdapter();
         movieViewAdapter.addMovies(movies);
+        gv.smoothScrollToPosition(position);
     }
 }

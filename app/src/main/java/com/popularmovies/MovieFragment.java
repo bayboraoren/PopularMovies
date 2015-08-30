@@ -29,6 +29,7 @@ public class MovieFragment extends Fragment {
     private MovieViewAdapter movieViewAdapter;
     private boolean isSettingsSelected=false;
     private GridView gv;
+    private int position;
 
     public MovieFragment() {
 
@@ -38,6 +39,11 @@ public class MovieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if(savedInstanceState!=null) {
+            position = savedInstanceState.getInt("position");
+        }
+
     }
 
     @Override
@@ -75,11 +81,13 @@ public class MovieFragment extends Fragment {
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+                position = pos;
 
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
                 Bundle args = new Bundle();
-                args.putParcelable(Movie.PARCEABLE_KEY, movieViewAdapter.getItem(i));
+                args.putParcelable(Movie.PARCEABLE_KEY, movieViewAdapter.getItem(pos));
                 movieDetailFragment.setArguments(args);
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -88,6 +96,7 @@ public class MovieFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
 
 
         gv.setAdapter(movieViewAdapter);
@@ -99,7 +108,8 @@ public class MovieFragment extends Fragment {
 
 
     private void update() {
-        MobileTask mobileTask = new MobileTask(movieViewAdapter, getActivity());
+
+        MobileTask mobileTask = new MobileTask(getActivity(),gv,position);
         mobileTask.execute();
 
         if(isSettingsSelected){
@@ -116,4 +126,10 @@ public class MovieFragment extends Fragment {
         update();
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("position", gv.getLastVisiblePosition());
+    }
 }

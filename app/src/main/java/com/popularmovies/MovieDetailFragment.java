@@ -6,6 +6,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,16 +84,7 @@ public class MovieDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case android.R.id.home:
-
-
                 getActivity().getSupportFragmentManager().popBackStack();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MovieFragment())
-                        .addToBackStack(null)
-                        .commit();
-
-
-
                 return true;
         }
         return (super.onOptionsItemSelected(menuItem));
@@ -103,9 +95,5 @@ public class MovieDetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), true);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
     }
 }

@@ -7,6 +7,7 @@ package com.popularmovies.component;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,14 +39,12 @@ public final class MovieViewAdapter extends BaseAdapter {
         this.context = context;
     }
 
+
     public void  addMovies(Movies movies){
         urls.clear();
         urls.addAll(movies.getResults());
         this.notifyDataSetChanged();
     }
-
-
-
 
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
@@ -62,18 +61,6 @@ public final class MovieViewAdapter extends BaseAdapter {
         String url = "http://image.tmdb.org/t/p/w185/" + movie.getPosterPath();
 
 
-        Callback callback = new Callback() {
-            @Override
-            public void onSuccess() {
-                Bitmap bitmap = ((BitmapDrawable) view.getDrawable()).getBitmap();
-                setItem(position,bitmap);
-            }
-
-            @Override
-            public void onError() {
-
-            }
-        };
 
 
         // Trigger the download of the URL asynchronously into the image view.
@@ -82,7 +69,7 @@ public final class MovieViewAdapter extends BaseAdapter {
                 .placeholder(R.drawable.placeholder) //
                 .fit()
                 .error(R.drawable.error)
-                .into(view,callback);
+                .into(view);
 
         return view;
     }
@@ -95,7 +82,7 @@ public final class MovieViewAdapter extends BaseAdapter {
         return urls.get(position);
     }
 
-    public void setItem(int position,Bitmap bitmap){
+    private void setItem(int position,Bitmap bitmap){
         Movie movie = urls.get(position);
         movie.setMoviePoster(bitmap);
         urls.set(position,movie);
@@ -104,7 +91,6 @@ public final class MovieViewAdapter extends BaseAdapter {
     @Override public long getItemId(int position) {
         return position;
     }
-
 
 
 }
