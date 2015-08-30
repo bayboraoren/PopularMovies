@@ -59,7 +59,7 @@ public final class MovieViewAdapter extends BaseAdapter {
 
         // Get the image URL for the current position.
         Movie movie =  getItem(position);
-        String url = "http://image.tmdb.org/t/p/w185/" + movie.getPosterPath();
+        String url = "http://image.tmdb.org/t/p/w300/" + movie.getPosterPath();
 
 
         Callback callback = new Callback() {
