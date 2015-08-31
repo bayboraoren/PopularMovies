@@ -6,23 +6,15 @@ package com.popularmovies.component;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Transformation;
 import android.widget.BaseAdapter;
 
 import com.popularmovies.R;
 import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Movies;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Target;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +50,7 @@ public final class MovieViewAdapter extends BaseAdapter {
 
         // Get the image URL for the current position.
         Movie movie =  getItem(position);
-        String url = "http://image.tmdb.org/t/p/w185/" + movie.getPosterPath();
+        String url = "http://image.tmdb.org/t/p/w370/" + movie.getPosterPath();
 
 
 

@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
 
-import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Movies;
 
 import java.io.BufferedReader;
@@ -15,7 +14,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Created by baybora on 8/27/15.
@@ -26,7 +24,8 @@ public class MovieUtility {
 
     public static final Bitmap getMovieDetailPoster(String posterPath){
 
-        String urlDisplay = "http://image.tmdb.org/t/p/w370/"+posterPath;
+        String urlDisplay = "http://image.tmdb.org/t/p/w500" +
+                "/"+posterPath;
         Bitmap moviePoster = null;
         try {
             InputStream in = new java.net.URL(urlDisplay ).openStream();
