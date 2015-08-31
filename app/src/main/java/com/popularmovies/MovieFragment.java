@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -113,7 +114,7 @@ public class MovieFragment extends Fragment {
         mobileTask.execute();
 
         if(isSettingsSelected){
-            gv.smoothScrollToPosition(0);
+            gv.setSelection(0);
             isSettingsSelected=false;
         }
 
@@ -131,6 +132,31 @@ public class MovieFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //remember scroll position
+        if(gv!=null){
+            position = gv.getFirstVisiblePosition();
+        }
+
+        int orientation = getResources().getConfiguration().orientation;
+
+        switch (orientation) {
+            case Surface.ROTATION_0: //portraid
+                position-=5;
+                break;
+            case Surface.ROTATION_90: //landscape
+                position-=2;
+                break;
+            case Surface.ROTATION_180: //reverse portraid
+                position+=2;
+                break;
+            default://reverse landscape
+                position+=5;
+                break;
+        }
+
         outState.putInt("position", position);
+
+
     }
+
+
 }

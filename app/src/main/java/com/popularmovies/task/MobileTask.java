@@ -33,6 +33,6 @@ public class MobileTask extends AsyncTask<Void,Void,Movies>{
     protected void onPostExecute(Movies movies) {
         MovieViewAdapter movieViewAdapter = (MovieViewAdapter)gv.getAdapter();
         movieViewAdapter.addMovies(movies);
-        gv.smoothScrollToPosition(position);
+        gv.setSelection(position);
     }
 }
