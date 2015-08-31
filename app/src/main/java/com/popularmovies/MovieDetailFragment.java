@@ -6,12 +6,12 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -44,11 +44,15 @@ public class MovieDetailFragment extends Fragment {
 
 
         Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+
+        //Progress Bar
+        ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.progress);
+
 
         //Poster Image
-        View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_poster);
-        MovieDetailPosterTask movieDetailPosterTask = new MovieDetailPosterTask(imageView);
+        MovieDetailPosterTask movieDetailPosterTask = new MovieDetailPosterTask(imageView,progressBar);
         movieDetailPosterTask.execute(movie.getPosterPath());
 
 

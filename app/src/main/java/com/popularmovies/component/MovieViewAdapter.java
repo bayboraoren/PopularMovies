@@ -23,7 +23,6 @@ import static android.widget.ImageView.ScaleType.CENTER_CROP;
 public final class MovieViewAdapter extends BaseAdapter {
 
     private static final String LOG_TAG = MovieViewAdapter.class.getSimpleName();
-    private MovieImageView view;
     private final Context context;
     private List<Movie> urls = new ArrayList<>();
 
@@ -40,8 +39,7 @@ public final class MovieViewAdapter extends BaseAdapter {
 
     @Override public View getView(final int position, View convertView, ViewGroup parent) {
 
-
-        view = (MovieImageView) convertView;
+        MovieImageView view = (MovieImageView) convertView;
 
         if (view == null) {
             view = new MovieImageView(context);

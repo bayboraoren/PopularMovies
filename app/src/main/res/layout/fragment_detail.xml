@@ -8,11 +8,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.popularmovies.component.MoviePosterImageView
-            android:id="@+id/movie_poster"
-            android:layout_width="match_parent"
-            android:layout_height="300px"
-            android:src="@drawable/error" />
+        <RelativeLayout
+            android:id="@+id/relative_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <com.popularmovies.component.MoviePosterImageView
+                android:id="@+id/movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="300px"
+                android:src="@drawable/error" />
+
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="visible"
+                android:max="100"
+                android:progress="40"/>
+
+        </RelativeLayout>
+
+
+
 
         <TextView
             android:id="@+id/movie_title"
