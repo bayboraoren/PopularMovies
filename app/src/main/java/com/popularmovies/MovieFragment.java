@@ -56,7 +56,6 @@ public class MovieFragment extends Fragment {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.sort_by) {
             //remember scroll position
             isSettingsSelected=true;
@@ -83,6 +82,7 @@ public class MovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
+                //remember scroll position
                 position = pos;
 
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
@@ -130,6 +130,7 @@ public class MovieFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("position", gv.getLastVisiblePosition());
+        //remember scroll position
+        outState.putInt("position", position);
     }
 }
