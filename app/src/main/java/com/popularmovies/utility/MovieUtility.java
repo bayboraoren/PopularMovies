@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.popularmovies.domain.Movies;
+import com.popularmovies.service.MovieRestService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by baybora on 8/27/15.
  */
@@ -22,13 +28,13 @@ public class MovieUtility {
 
     public static final String LOG_TAG = MovieUtility.class.getSimpleName();
 
-    public static final Bitmap getMovieDetailPoster(String posterPath){
+    public static final Bitmap getMovieDetailPoster(String posterPath) {
 
         String urlDisplay = "http://image.tmdb.org/t/p/w500" +
-                "/"+posterPath;
+                "/" + posterPath;
         Bitmap moviePoster = null;
         try {
-            InputStream in = new java.net.URL(urlDisplay ).openStream();
+            InputStream in = new java.net.URL(urlDisplay).openStream();
             moviePoster = BitmapFactory.decodeStream(in);
         } catch (Exception e) {
             Log.e(LOG_TAG, e.getMessage());
@@ -36,8 +42,36 @@ public class MovieUtility {
         return moviePoster;
     }
 
+    public static final Movies getMoviesWithRetrofit(Context context) {
 
-    public static final Movies getMovies(Context context){
+        final String MOVIE_DATABASE_BASE_URL =
+                "http://api.themoviedb.org/3";
+
+        String sortBy = CommonUtility.getPreferredSortBy(context);
+
+        String apiKey = "c8d8be2cdf2ddd5cb31cf3a04460210c";
+
+
+        RestAdapter retrofit = new RestAdapter.Builder().setEndpoint(MOVIE_DATABASE_BASE_URL).build();
+        MovieRestService service = retrofit.create(MovieRestService.class);
+
+        Movies movies = service.popular(sortBy, new Callback<Movies>() {
+
+            @Override
+            public void success(Movies movies, Response response) {
+                Log.i("Test", "Test");
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.i("Test", "Test");
+            }
+        });
+
+        return null;
+    }
+
+    public static final Movies getMovies(Context context) {
         // These two need to be declared outside the try/catch
         // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;

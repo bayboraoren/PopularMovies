@@ -31,7 +31,7 @@ public class MobileTask extends AsyncTask<Void,Void,Movies>{
     @Override
     protected Movies doInBackground(Void... voids) {
         this.progressBar.setVisibility(View.VISIBLE);
-        return MovieUtility.getMovies(context);
+        return MovieUtility.getMoviesWithRetrofit(context);
     }
 
     @Override

@@ -38,4 +38,7 @@ dependencies {
     //gson
     compile 'com.google.code.gson:gson:2.3.1'
 
+    //retrofit
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+
 }
