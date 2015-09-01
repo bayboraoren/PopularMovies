@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.popularmovies.component.MovieScrollListener;
 import com.popularmovies.component.MovieViewAdapter;
@@ -116,7 +117,9 @@ public class MovieFragment extends Fragment {
 
     private void update() {
 
-        MobileTask mobileTask = new MobileTask(getActivity(),gv,position);
+        ProgressBar progressBar = (ProgressBar)getActivity().findViewById(R.id.progress);
+
+        MobileTask mobileTask = new MobileTask(getActivity(),gv,position,progressBar);
         mobileTask.execute();
 
         if(isSettingsSelected){
