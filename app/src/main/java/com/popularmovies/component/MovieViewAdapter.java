@@ -5,7 +5,6 @@ package com.popularmovies.component;
  */
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,6 +23,7 @@ public final class MovieViewAdapter extends BaseAdapter {
 
     private static final String LOG_TAG = MovieViewAdapter.class.getSimpleName();
     private final Context context;
+    private Movies movies;
     private List<Movie> urls = new ArrayList<>();
 
     public MovieViewAdapter(Context context) {
@@ -32,8 +32,13 @@ public final class MovieViewAdapter extends BaseAdapter {
 
 
     public void  addMovies(Movies movies){
+        this.movies = movies;
+        addMovieList(movies.getResults());
+    }
+
+    public void addMovieList(List<Movie> movieList){
         urls.clear();
-        urls.addAll(movies.getResults());
+        urls.addAll(movieList);
         this.notifyDataSetChanged();
     }
 
@@ -72,10 +77,8 @@ public final class MovieViewAdapter extends BaseAdapter {
         return urls.get(position);
     }
 
-    private void setItem(int position,Bitmap bitmap){
-        Movie movie = urls.get(position);
-        movie.setMoviePoster(bitmap);
-        urls.set(position,movie);
+    public List<Movie> getItems(){
+        return urls;
     }
 
     @Override public long getItemId(int position) {

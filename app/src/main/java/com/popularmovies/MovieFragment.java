@@ -21,6 +21,9 @@ import com.popularmovies.domain.Movie;
 import com.popularmovies.task.MobileTask;
 import com.popularmovies.utility.ActionBarUtility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,6 +34,8 @@ public class MovieFragment extends Fragment {
     private boolean isSettingsSelected=false;
     private GridView gv;
     private int position;
+    private final static String POSITION = "position";
+    private final static String MOVIES = "movies";
 
     public MovieFragment() {
 
@@ -40,11 +45,6 @@ public class MovieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        if(savedInstanceState!=null) {
-            position = savedInstanceState.getInt("position");
-        }
-
     }
 
     @Override
@@ -71,10 +71,16 @@ public class MovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        //remember scroll position
         if(movieViewAdapter==null) {
             movieViewAdapter = new MovieViewAdapter(getActivity());
         }
+
+        if(savedInstanceState!=null){
+            List<Movie> movieList = savedInstanceState.getParcelableArrayList(MOVIES);
+            //Add movie list directly on movie view adapter
+            movieViewAdapter.addMovieList(movieList);
+        }
+
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         gv = (GridView) view.findViewById(R.id.grid_view);
@@ -124,12 +130,17 @@ public class MovieFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), false);
-        update();
+
+        //get movie list first time
+        if(movieViewAdapter.getItems().size()==0) {
+            update();
+        }
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
         super.onSaveInstanceState(outState);
         //remember scroll position
         if(gv!=null){
@@ -153,10 +164,16 @@ public class MovieFragment extends Fragment {
                 break;
         }
 
-        outState.putInt("position", position);
+        //Movie List
+        ArrayList<Movie> movies = (ArrayList)movieViewAdapter.getItems();
+
+        outState.putInt(POSITION, position);
+        outState.putParcelableArrayList(MOVIES,movies);
 
 
     }
+
+
 
 
 }
