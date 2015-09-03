@@ -6,6 +6,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.view.MenuItem;
 
 import com.popularmovies.utility.CommonUtility;
 
@@ -47,6 +48,22 @@ public class SettingsActivity extends PreferenceActivity
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //return result for sort by changing
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra(SORT_BY_CHANGED, sortByChanged);
+                setResult(RESULT_OK, resultIntent);
+                super.finish();
+
+                break;
+
+        }
+        return true;
     }
 
     @Override

@@ -22,7 +22,12 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/sort_by" >
+            android:label="@string/action_settings"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/SettingsTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.popularmovies.MainActivity" />
         </activity>
 
 
