@@ -1,5 +1,6 @@
 package com.popularmovies;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,7 @@ import java.util.List;
 public class MovieFragment extends Fragment {
 
     private MovieViewAdapter movieViewAdapter;
-    private boolean isSettingsSelected=false;
+    private boolean isSettingsSelected = false;
     private GridView gv;
     private int position;
     private final static String POSITION = "position";
@@ -60,23 +61,28 @@ public class MovieFragment extends Fragment {
 
         if (id == R.id.sort_by) {
             //remember scroll position
-            isSettingsSelected=true;
+            isSettingsSelected = true;
 
-            Intent intent = new Intent(getActivity(),SettingsActivity.class);
-            startActivity(intent);
+            //start activity with result to get sort by changed in settings activity
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
+            startActivityForResult(intent, 0);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);    }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if(movieViewAdapter==null) {
+
+        if (movieViewAdapter == null) {
             movieViewAdapter = new MovieViewAdapter(getActivity());
         }
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(MOVIES);
             //Add movie list directly on movie view adapter
             movieViewAdapter.addMovieList(movieList);
@@ -106,7 +112,6 @@ public class MovieFragment extends Fragment {
         });
 
 
-
         gv.setAdapter(movieViewAdapter);
         gv.setOnScrollListener(new MovieScrollListener(getActivity()));
 
@@ -117,27 +122,43 @@ public class MovieFragment extends Fragment {
 
     private void update() {
 
-        ProgressBar progressBar = (ProgressBar)getActivity().findViewById(R.id.progress);
+        ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
-        MobileTask mobileTask = new MobileTask(getActivity(),gv,position,progressBar);
+        MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
         mobileTask.execute();
 
-        if(isSettingsSelected){
+        if (isSettingsSelected) {
             gv.setSelection(0);
-            isSettingsSelected=false;
+            isSettingsSelected = false;
         }
 
     }
+
 
     @Override
     public void onStart() {
         super.onStart();
         ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), false);
 
+        /*if(getArguments()!=null && getArguments().getBoolean(SettingsActivity.SORT_BY_CHANGED)){
+            update();
+        }*/
+
+
         //get movie list first time
-        if(movieViewAdapter.getItems().size()==0) {
+        if (movieViewAdapter.getItems().size() == 0) {
             update();
         }
+    }
+
+
+    //get sort by changing in settings activity
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK)
+            if (data.getExtras().getBoolean(SettingsActivity.SORT_BY_CHANGED)) {
+                update();
+            }
     }
 
 
@@ -146,7 +167,7 @@ public class MovieFragment extends Fragment {
 
         super.onSaveInstanceState(outState);
         //remember scroll position
-        if(gv!=null){
+        if (gv != null) {
             position = gv.getFirstVisiblePosition();
         }
 
@@ -154,29 +175,27 @@ public class MovieFragment extends Fragment {
 
         switch (orientation) {
             case Surface.ROTATION_0: //portraid
-                position-=5;
+                position -= 5;
                 break;
             case Surface.ROTATION_90: //landscape
-                position-=2;
+                position -= 2;
                 break;
             case Surface.ROTATION_180: //reverse portraid
-                position+=2;
+                position += 2;
                 break;
             default://reverse landscape
-                position+=5;
+                position += 5;
                 break;
         }
 
         //Movie List
-        ArrayList<Movie> movies = (ArrayList)movieViewAdapter.getItems();
+        ArrayList<Movie> movies = (ArrayList) movieViewAdapter.getItems();
 
         outState.putInt(POSITION, position);
-        outState.putParcelableArrayList(MOVIES,movies);
+        outState.putParcelableArrayList(MOVIES, movies);
 
 
     }
-
-
 
 
 }

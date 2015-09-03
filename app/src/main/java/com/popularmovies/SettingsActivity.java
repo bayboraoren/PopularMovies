@@ -1,10 +1,13 @@
 package com.popularmovies;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+
+import com.popularmovies.utility.CommonUtility;
 
 /**
  * Created by baybora on 8/28/15.
@@ -12,11 +15,17 @@ import android.preference.PreferenceManager;
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
+    public static final String SORT_BY_CHANGED = "sortByChanged";
+    private String selectedSortBy;
+    private boolean sortByChanged = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Add 'general' preferences, defined in the XML file
         addPreferencesFromResource(R.xml.pref_general);
+
+        selectedSortBy = CommonUtility.getPreferredSortBy(this);
 
         // For all preferences, attach an OnPreferenceChangeListener so the UI summary can be
         // updated when the preference changes.
@@ -42,6 +51,20 @@ public class SettingsActivity extends PreferenceActivity
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object value) {
+
+        //Check sort By Preference changed
+        if (preference.getKey().equals(getString(R.string.pref_sort_by_key))) {
+            if (value.equals(selectedSortBy)) {
+                sortByChanged = false;
+            } else {
+                sortByChanged = true;
+            }
+
+            selectedSortBy = (String) value;
+
+
+        }
+
         String stringValue = value.toString();
 
         if (preference instanceof ListPreference) {
@@ -59,4 +82,13 @@ public class SettingsActivity extends PreferenceActivity
         return true;
     }
 
+
+    @Override
+    public void onBackPressed() {
+        //return result for sort by changing
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(SORT_BY_CHANGED, sortByChanged);
+        setResult(RESULT_OK, resultIntent);
+        super.finish();
+    }
 }
