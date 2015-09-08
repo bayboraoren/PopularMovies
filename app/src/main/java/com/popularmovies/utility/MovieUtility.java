@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.popularmovies.domain.Movies;
+import com.popularmovies.domain.Trailers;
 import com.popularmovies.service.MovieRestService;
 
 import java.io.BufferedReader;
@@ -54,5 +55,23 @@ public class MovieUtility {
         return service.getMovies(apiKey, sortBy);
 
     }
+
+    public static final Trailers getTrailers(String movieId) {
+
+        final String MOVIE_DATABASE_BASE_URL =
+                "http://api.themoviedb.org/3";
+
+        String apiKey = "c8d8be2cdf2ddd5cb31cf3a04460210c";
+
+
+        RestAdapter retrofit = new RestAdapter.Builder().setEndpoint(MOVIE_DATABASE_BASE_URL).build();
+        MovieRestService service = retrofit.create(MovieRestService.class);
+
+        return service.getTrailers(movieId,apiKey);
+
+    }
+
+
+
 
 }

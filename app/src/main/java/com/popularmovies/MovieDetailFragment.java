@@ -10,14 +10,22 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.popularmovies.component.MovieDetailAdapter;
 import com.popularmovies.domain.Movie;
-import com.popularmovies.task.MovieDetailPosterTask;
+import com.popularmovies.domain.Trailer;
+import com.popularmovies.task.MovieDetailTask;
 import com.popularmovies.utility.ActionBarUtility;
+
+import org.lucasr.twowayview.TwoWayView;
+
+import java.util.ArrayList;
 
 /**
  * Created by baybora on 8/28/15.
@@ -50,10 +58,13 @@ public class MovieDetailFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.progress);
 
 
-        //Poster Image
+        //Poster Image and Trailers
         ImageView imageView = (ImageView) view.findViewById(R.id.movie_poster);
-        MovieDetailPosterTask movieDetailPosterTask = new MovieDetailPosterTask(imageView,progressBar);
-        movieDetailPosterTask.execute(movie.getPosterPath());
+
+        TwoWayView trailerView = (TwoWayView) view.findViewById(R.id.trailers);
+
+        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(),imageView,progressBar,trailerView);
+        movieDetailTask.execute(movie.getId().toString(),movie.getPosterPath());
 
 
         //Title

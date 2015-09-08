@@ -41,4 +41,7 @@ dependencies {
     //retrofit
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
+    //two way view
+    compile 'org.lucasr.twowayview:twowayview:0.1.4'
+
 }
