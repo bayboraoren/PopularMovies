@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.popularmovies.R;
-import com.popularmovies.domain.MovieDetail;
 import com.popularmovies.domain.Trailer;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,12 +17,17 @@ import java.util.ArrayList;
  */
 public class MovieDetailAdapter extends ArrayAdapter<Trailer> {
 
+    private Context context;
+
     public MovieDetailAdapter(Context context, ArrayList<Trailer> movieDetail) {
         super(context, 0, movieDetail);
+        this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
 
         Trailer trailer = getItem(position);
 
@@ -33,13 +36,15 @@ public class MovieDetailAdapter extends ArrayAdapter<Trailer> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.trailer_list_item, parent, false);
         }
 
-        ImageView trailerThumbnail = (ImageView)convertView.findViewById(R.id.trailer_thumbnail);
-        trailerThumbnail.setImageResource(R.drawable.movie_trailer_thumbnail);
+        MovieTrailerThumbnailImageView trailerThumbnail = (MovieTrailerThumbnailImageView)convertView.findViewById(R.id.movie_trailer);
 
+        final String youtubeThumbnailUrl = String.format("http://img.youtube.com/vi/%s/mqdefault.jpg",trailer.getKey());
 
+        Picasso.with(context) //
+                .load(youtubeThumbnailUrl) //
+                .placeholder(R.drawable.placeholder_400_200) //
+                .into(trailerThumbnail);
 
-        TextView trailerTitle = (TextView)convertView.findViewById(R.id.trailer_title);
-        trailerTitle.setText(trailer.getName());
 
         return convertView;
     }

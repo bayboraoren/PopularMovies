@@ -1,7 +1,6 @@
 package com.popularmovies.task;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,13 +8,10 @@ import android.widget.ProgressBar;
 
 import com.popularmovies.component.MovieDetailAdapter;
 import com.popularmovies.domain.MovieDetail;
-import com.popularmovies.domain.Trailer;
 import com.popularmovies.domain.Trailers;
 import com.popularmovies.utility.MovieUtility;
 
 import org.lucasr.twowayview.TwoWayView;
-
-import java.util.ArrayList;
 
 /**
  * Created by baybora on 8/30/15.
