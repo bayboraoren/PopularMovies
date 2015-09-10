@@ -1,79 +1,128 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/relative_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:fillViewport="true">
 
 
-            <com.popularmovies.component.MoviePosterImageView
-                android:id="@+id/movie_poster"
-                android:layout_width="match_parent"
-                android:layout_height="300px"
-                android:src="@drawable/error" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="?android:attr/progressBarStyle"
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/relative_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <com.popularmovies.component.MoviePosterImageView
+                        android:id="@+id/movie_poster"
+                        android:layout_width="match_parent"
+                        android:layout_height="300px"
+                        android:src="@drawable/error" />
+
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:max="100"
+                        android:progress="40"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/movie_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/movie_release_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RatingBar
+                    android:id="@+id/movie_vote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:stepSize="0.25" />
+
+
+                <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/movie_synopsis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="wrap_content"
+        android:layout_height="87dp"
+        android:layout_alignParentBottom="true"
+        android:background="#000000">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:max="100"
-                android:progress="40"
-                android:visibility="visible" />
+                android:text="Trailers"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
-        </RelativeLayout>
+            <org.lucasr.twowayview.TwoWayView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/trailers"
+                style="@style/TwoWayView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:drawSelectorOnTop="false"
+                android:background="#000000"
+                />
+        </LinearLayout>
 
+    </RelativeLayout>
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/movie_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/movie_release_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <RatingBar
-            android:id="@+id/movie_vote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="true"
-            android:stepSize="0.25" />
+</RelativeLayout>
 
 
-        <TextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/movie_synopsis"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
-        <org.lucasr.twowayview.TwoWayView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/trailers"
-            style="@style/TwoWayView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawSelectorOnTop="false"
-            />
-
-
-    </LinearLayout>
-
-
-</ScrollView>
