@@ -1,8 +1,10 @@
 package com.popularmovies;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -10,22 +12,18 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.popularmovies.component.MovieDetailAdapter;
 import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Trailer;
 import com.popularmovies.task.MovieDetailTask;
 import com.popularmovies.utility.ActionBarUtility;
 
 import org.lucasr.twowayview.TwoWayView;
-
-import java.util.ArrayList;
 
 /**
  * Created by baybora on 8/28/15.
@@ -66,6 +64,14 @@ public class MovieDetailFragment extends Fragment {
         MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(),imageView,progressBar,trailerView);
         movieDetailTask.execute(movie.getId().toString(),movie.getPosterPath());
 
+
+        trailerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Trailer trailer = ((Trailer)((TwoWayView) parent).getAdapter().getItem(position));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+trailer.getKey())));
+            }
+        });
 
         //Title
         TextView title = (TextView) view.findViewById(R.id.movie_title);
