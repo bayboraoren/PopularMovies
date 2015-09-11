@@ -9,6 +9,7 @@ public class MovieDetail {
 
     private Bitmap posterBitmap;
     private Trailers trailers;
+    private Reviews reviews;
 
     public Bitmap getPosterBitmap() {
         return posterBitmap;
@@ -24,5 +25,14 @@ public class MovieDetail {
 
     public void setTrailers(Trailers trailers) {
         this.trailers = trailers;
+    }
+
+
+    public Reviews getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Reviews reviews) {
+        this.reviews = reviews;
     }
 }

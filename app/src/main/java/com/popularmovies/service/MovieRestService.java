@@ -1,6 +1,7 @@
 package com.popularmovies.service;
 
 import com.popularmovies.domain.Movies;
+import com.popularmovies.domain.Reviews;
 import com.popularmovies.domain.Trailers;
 
 import retrofit.http.GET;
@@ -23,6 +24,10 @@ public interface MovieRestService {
     @GET("/movie/{movieId}/videos")
     Trailers getTrailers(@Path("movieId") String movieId,
                          @Query(API_KEY) String apiKey);
+
+    @GET("/movie/{movieId}/reviews")
+    Reviews getReviews(@Path("movieId") String movieId,
+                       @Query(API_KEY) String apiKey);
 
 
 }

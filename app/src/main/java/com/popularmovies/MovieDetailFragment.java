@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -61,7 +62,9 @@ public class MovieDetailFragment extends Fragment {
 
         TwoWayView trailerView = (TwoWayView) view.findViewById(R.id.trailers);
 
-        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(),imageView,progressBar,trailerView);
+        LinearLayout reviews = (LinearLayout) view.findViewById(R.id.reviews);
+
+        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(),imageView,progressBar,trailerView,reviews);
         movieDetailTask.execute(movie.getId().toString(),movie.getPosterPath());
 
 

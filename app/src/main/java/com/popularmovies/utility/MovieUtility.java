@@ -3,19 +3,14 @@ package com.popularmovies.utility;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 
 import com.popularmovies.domain.Movies;
+import com.popularmovies.domain.Reviews;
 import com.popularmovies.domain.Trailers;
 import com.popularmovies.service.MovieRestService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import retrofit.RestAdapter;
 
@@ -67,10 +62,25 @@ public class MovieUtility {
         RestAdapter retrofit = new RestAdapter.Builder().setEndpoint(MOVIE_DATABASE_BASE_URL).build();
         MovieRestService service = retrofit.create(MovieRestService.class);
 
-        return service.getTrailers(movieId,apiKey);
+        return service.getTrailers(movieId, apiKey);
 
     }
 
+
+    public static final Reviews getReviews(String movieId) {
+
+        final String MOVIE_DATABASE_BASE_URL =
+                "http://api.themoviedb.org/3";
+
+        String apiKey = "c8d8be2cdf2ddd5cb31cf3a04460210c";
+
+
+        RestAdapter retrofit = new RestAdapter.Builder().setEndpoint(MOVIE_DATABASE_BASE_URL).build();
+        MovieRestService service = retrofit.create(MovieRestService.class);
+
+        return service.getReviews(movieId,apiKey);
+
+    }
 
 
 
