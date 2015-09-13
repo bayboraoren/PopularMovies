@@ -23,6 +23,7 @@ import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Trailer;
 import com.popularmovies.task.MovieDetailTask;
 import com.popularmovies.utility.ActionBarUtility;
+import com.popularmovies.utility.FavoriteUtility;
 
 import org.lucasr.twowayview.TwoWayView;
 
@@ -46,15 +47,15 @@ public class MovieDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-        Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
+        final Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         //Progress Bar
-        ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.progress);
+        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
 
         //Poster Image and Trailers
@@ -64,17 +65,18 @@ public class MovieDetailFragment extends Fragment {
 
         LinearLayout reviews = (LinearLayout) view.findViewById(R.id.reviews);
 
-        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(),imageView,progressBar,trailerView,reviews);
-        movieDetailTask.execute(movie.getId().toString(),movie.getPosterPath());
+        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(), imageView, progressBar, trailerView, reviews);
+        movieDetailTask.execute(movie.getId().toString(), movie.getPosterPath());
 
 
         trailerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Trailer trailer = ((Trailer)((TwoWayView) parent).getAdapter().getItem(position));
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v="+trailer.getKey())));
+                Trailer trailer = ((Trailer) ((TwoWayView) parent).getAdapter().getItem(position));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailer.getKey())));
             }
         });
+
 
         //Title
         TextView title = (TextView) view.findViewById(R.id.movie_title);
@@ -98,6 +100,28 @@ public class MovieDetailFragment extends Fragment {
         //Release Date
         TextView synopsis = (TextView) view.findViewById(R.id.movie_synopsis);
         synopsis.setText(movie.getOverview());
+
+        //Favorite
+        final ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String movieId = movie.getId().toString();
+
+                if(FavoriteUtility.isExist(getActivity(),movieId)){
+                    FavoriteUtility.remove(getActivity(),movieId);
+                    favorite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                }else{
+                    FavoriteUtility.add(getActivity(), movieId);
+                    favorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+
+                }
+            }
+        });
+
+        if(FavoriteUtility.isExist(getActivity(),movie.getId().toString())){
+            favorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+        }
 
 
         return view;
