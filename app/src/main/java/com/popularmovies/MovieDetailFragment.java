@@ -110,17 +110,17 @@ public class MovieDetailFragment extends Fragment {
 
                 if(FavoriteUtility.isExist(getActivity(),movieId)){
                     FavoriteUtility.remove(getActivity(),movieId);
-                    favorite.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    favorite.setImageResource(R.drawable.favorite_icon);
                 }else{
                     FavoriteUtility.add(getActivity(), movieId);
-                    favorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+                    favorite.setImageResource(R.drawable.favorite_icon_selected);
 
                 }
             }
         });
 
         if(FavoriteUtility.isExist(getActivity(),movie.getId().toString())){
-            favorite.setImageResource(R.drawable.ic_favorite_red_24dp);
+            favorite.setImageResource(R.drawable.favorite_icon_selected);
         }
 
 
