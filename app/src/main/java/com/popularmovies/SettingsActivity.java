@@ -17,6 +17,7 @@ public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
     public static final String SORT_BY_CHANGED = "sortByChanged";
+
     private String selectedSortBy;
     private boolean sortByChanged = false;
 

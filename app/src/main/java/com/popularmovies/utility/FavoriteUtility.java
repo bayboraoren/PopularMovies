@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class FavoriteUtility {
 
-    private static final String FAVORITE = "favorite";
+    public static final String FAVORITE = "favorite";
 
     public static void add(Context context,String movieId){
         SharedPreferences.Editor editor = context.getSharedPreferences(FAVORITE, Context.MODE_PRIVATE).edit();

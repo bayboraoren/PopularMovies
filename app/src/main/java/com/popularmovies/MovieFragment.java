@@ -22,6 +22,8 @@ import com.popularmovies.component.MovieViewAdapter;
 import com.popularmovies.domain.Movie;
 import com.popularmovies.task.MobileTask;
 import com.popularmovies.utility.ActionBarUtility;
+import com.popularmovies.utility.CommonUtility;
+import com.popularmovies.utility.FavoriteUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +127,21 @@ public class MovieFragment extends Fragment {
         ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
         MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
-        mobileTask.execute();
+        mobileTask.execute(false);
+
+        if (isSettingsSelected) {
+            gv.setSelection(0);
+            isSettingsSelected = false;
+        }
+
+    }
+
+    private void updateByFavorite() {
+
+        ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+
+        MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
+        mobileTask.execute(true);
 
         if (isSettingsSelected) {
             gv.setSelection(0);
@@ -140,13 +156,9 @@ public class MovieFragment extends Fragment {
         super.onStart();
         ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), false);
 
-        /*if(getArguments()!=null && getArguments().getBoolean(SettingsActivity.SORT_BY_CHANGED)){
-            update();
-        }*/
-
-
-        //get movie list first time
-        if (movieViewAdapter.getItems().size() == 0) {
+        if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
+            updateByFavorite();
+        }else if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
             update();
         }
     }
@@ -157,7 +169,14 @@ public class MovieFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK)
             if (data.getExtras().getBoolean(SettingsActivity.SORT_BY_CHANGED)) {
-                update();
+
+                String sortBy = CommonUtility.getPreferredSortBy(getActivity());
+                if(sortBy.equals(getString(R.string.pref_sort_by_favorite))){
+                    updateByFavorite();
+                }else{
+                    update();
+                }
+
             }
     }
 

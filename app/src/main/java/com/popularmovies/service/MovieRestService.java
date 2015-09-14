@@ -1,5 +1,6 @@
 package com.popularmovies.service;
 
+import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Movies;
 import com.popularmovies.domain.Reviews;
 import com.popularmovies.domain.Trailers;
@@ -19,6 +20,11 @@ public interface MovieRestService {
     @GET("/discover/movie")
     Movies getMovies(@Query(API_KEY) String apiKey,
                      @Query(SORT_BY) String sortOrder);
+
+
+    @GET("/movie/{movieId}")
+    Movie getMovieById(@Path("movieId") String movieId,
+                        @Query(API_KEY) String apiKey);
 
 
     @GET("/movie/{movieId}/videos")

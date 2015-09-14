@@ -5,12 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Movies;
 import com.popularmovies.domain.Reviews;
 import com.popularmovies.domain.Trailers;
 import com.popularmovies.service.MovieRestService;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import retrofit.RestAdapter;
 
@@ -49,6 +53,36 @@ public class MovieUtility {
 
         return service.getMovies(apiKey, sortBy);
 
+    }
+
+    public static final Movies getMoviesByFavorite(Context context) {
+
+        final String MOVIE_DATABASE_BASE_URL =
+                "http://api.themoviedb.org/3";
+
+        String sortBy = CommonUtility.getPreferredSortBy(context);
+
+        String apiKey = "c8d8be2cdf2ddd5cb31cf3a04460210c";
+
+
+        RestAdapter retrofit = new RestAdapter.Builder().setEndpoint(MOVIE_DATABASE_BASE_URL).build();
+        MovieRestService service = retrofit.create(MovieRestService.class);
+
+        List<Movie> movieList = new ArrayList<>();
+        Iterator<String> favoriteMovieList = CommonUtility.getFavoriteMovies(context);
+
+
+        do{
+            String movieId = favoriteMovieList.next();
+            Movie movie = service.getMovieById(movieId,apiKey);
+            movieList.add(movie);
+        }while(favoriteMovieList.hasNext());
+
+
+        Movies movies = new Movies();
+        movies.setResults(movieList);
+
+        return movies;
     }
 
     public static final Trailers getTrailers(String movieId) {

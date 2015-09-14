@@ -13,7 +13,7 @@ import com.popularmovies.utility.MovieUtility;
 /**
  * Created by baybora on 8/27/15.
  */
-public class MobileTask extends AsyncTask<Void,Void,Movies>{
+public class MobileTask extends AsyncTask<Boolean,Void,Movies>{
 
     private Context context;
     private GridView gv;
@@ -35,8 +35,15 @@ public class MobileTask extends AsyncTask<Void,Void,Movies>{
     }
 
     @Override
-    protected Movies doInBackground(Void... voids) {
-        return MovieUtility.getMovies(context);
+    protected Movies doInBackground(Boolean... controls) {
+
+        boolean isFavorite = controls[0];
+        if(isFavorite){
+            return MovieUtility.getMoviesByFavorite(context);
+        }else{
+            return MovieUtility.getMovies(context);
+        }
+
     }
 
     @Override
