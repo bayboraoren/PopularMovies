@@ -19,6 +19,8 @@ import com.popularmovies.utility.MovieUtility;
 
 import org.lucasr.twowayview.TwoWayView;
 
+import java.util.ArrayList;
+
 /**
  * Created by baybora on 8/30/15.
  */
@@ -71,13 +73,21 @@ public class MovieDetailTask extends AsyncTask<String,Integer,MovieDetail> {
         MovieDetailAdapter movieDetailAdapter = new MovieDetailAdapter(context,movieDetail.getTrailers().getResults());
         this.trailerView.setAdapter(movieDetailAdapter);
 
-        for(Review review:movieDetail.getReviews().getResults()){
+        ArrayList<Review> reviewArrList = movieDetail.getReviews().getResults();
+
+        for(Review review:reviewArrList){
             View reviewView = LayoutInflater.from(context).inflate(R.layout.review_list_item, null);
             ((TextView)reviewView.findViewById(R.id.reviewer_name)).setText(review.getAuthor());
             ((TextView)reviewView.findViewById(R.id.reviewer_content)).setText(review.getContent());
             reviews.addView(reviewView);
         }
 
+        //set visibility for reviews layout
+        if(movieDetail.getReviews().getResults().size()==0) {
+            ((View) reviews.getParent()).setVisibility(View.GONE);
+        }else{
+            ((View) reviews.getParent()).setVisibility(View.VISIBLE);
+        }
 
     }
 }
