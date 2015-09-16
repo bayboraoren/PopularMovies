@@ -50,79 +50,82 @@ public class MovieDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        final Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        //Progress Bar
-        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
+        if (getArguments() != null) {
+
+            final Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
+
+            //Progress Bar
+            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progress);
 
 
-        //Poster Image and Trailers
-        ImageView imageView = (ImageView) view.findViewById(R.id.movie_poster);
+            //Poster Image and Trailers
+            ImageView imageView = (ImageView) view.findViewById(R.id.movie_poster);
 
-        TwoWayView trailerView = (TwoWayView) view.findViewById(R.id.trailers);
+            TwoWayView trailerView = (TwoWayView) view.findViewById(R.id.trailers);
 
-        LinearLayout reviews = (LinearLayout) view.findViewById(R.id.reviews);
+            LinearLayout reviews = (LinearLayout) view.findViewById(R.id.reviews);
 
-        MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(), imageView, progressBar, trailerView, reviews);
-        movieDetailTask.execute(movie.getId().toString(), movie.getPosterPath());
-
-
-        trailerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Trailer trailer = ((Trailer) ((TwoWayView) parent).getAdapter().getItem(position));
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailer.getKey())));
-            }
-        });
+            MovieDetailTask movieDetailTask = new MovieDetailTask(getActivity(), imageView, progressBar, trailerView, reviews);
+            movieDetailTask.execute(movie.getId().toString(), movie.getPosterPath());
 
 
-        //Title
-        TextView title = (TextView) view.findViewById(R.id.movie_title);
-        title.setText(movie.getTitle());
-
-
-        //Release Date
-        TextView releaseDate = (TextView) view.findViewById(R.id.movie_release_date);
-        releaseDate.setText("Release Date, " + movie.getReleaseDate());
-
-        //Vote
-        float rating = 5 * movie.getVoteAverage().floatValue() / 10;
-        RatingBar voteRatingBar = (RatingBar) view.findViewById(R.id.movie_vote);
-        voteRatingBar.setRating(rating);
-
-        //RatingBar Color Black
-        LayerDrawable stars = (LayerDrawable) voteRatingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-
-        //Synopsis
-        //Release Date
-        TextView synopsis = (TextView) view.findViewById(R.id.movie_synopsis);
-        synopsis.setText(movie.getOverview());
-
-        //Favorite
-        final ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
-        favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String movieId = movie.getId().toString();
-
-                if(FavoriteUtility.isExist(getActivity(),movieId)){
-                    FavoriteUtility.remove(getActivity(),movieId);
-                    favorite.setImageResource(R.drawable.favorite_icon);
-                }else{
-                    FavoriteUtility.add(getActivity(), movieId);
-                    favorite.setImageResource(R.drawable.favorite_icon_selected);
-
+            trailerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Trailer trailer = ((Trailer) ((TwoWayView) parent).getAdapter().getItem(position));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailer.getKey())));
                 }
+            });
+
+
+            //Title
+            TextView title = (TextView) view.findViewById(R.id.movie_title);
+            title.setText(movie.getTitle());
+
+
+            //Release Date
+            TextView releaseDate = (TextView) view.findViewById(R.id.movie_release_date);
+            releaseDate.setText("Release Date, " + movie.getReleaseDate());
+
+            //Vote
+            float rating = 5 * movie.getVoteAverage().floatValue() / 10;
+            RatingBar voteRatingBar = (RatingBar) view.findViewById(R.id.movie_vote);
+            voteRatingBar.setRating(rating);
+
+            //RatingBar Color Black
+            LayerDrawable stars = (LayerDrawable) voteRatingBar.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+
+            //Synopsis
+            //Release Date
+            TextView synopsis = (TextView) view.findViewById(R.id.movie_synopsis);
+            synopsis.setText(movie.getOverview());
+
+            //Favorite
+            final ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
+            favorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String movieId = movie.getId().toString();
+
+                    if (FavoriteUtility.isExist(getActivity(), movieId)) {
+                        FavoriteUtility.remove(getActivity(), movieId);
+                        favorite.setImageResource(R.drawable.favorite_icon);
+                    } else {
+                        FavoriteUtility.add(getActivity(), movieId);
+                        favorite.setImageResource(R.drawable.favorite_icon_selected);
+
+                    }
+                }
+            });
+
+            if (FavoriteUtility.isExist(getActivity(), movie.getId().toString())) {
+                favorite.setImageResource(R.drawable.favorite_icon_selected);
             }
-        });
 
-        if(FavoriteUtility.isExist(getActivity(),movie.getId().toString())){
-            favorite.setImageResource(R.drawable.favorite_icon_selected);
         }
-
 
         return view;
     }

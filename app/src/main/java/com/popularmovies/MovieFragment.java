@@ -38,6 +38,7 @@ public class MovieFragment extends Fragment {
     private boolean isSettingsSelected = false;
     private GridView gv;
     private int position;
+    private int gridViewNumColumns;
     private final static String POSITION = "position";
     private final static String MOVIES = "movies";
 
@@ -214,6 +215,11 @@ public class MovieFragment extends Fragment {
         outState.putParcelableArrayList(MOVIES, movies);
 
 
+    }
+
+
+    public void setGridViewNumColumns(int numColumns){
+        this.gridViewNumColumns  = numColumns;
     }
 
 

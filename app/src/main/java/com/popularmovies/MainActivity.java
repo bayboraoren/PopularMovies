@@ -1,7 +1,6 @@
 package com.popularmovies;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 
 import com.popularmovies.utility.ActionBarUtility;
@@ -9,7 +8,6 @@ import com.popularmovies.utility.ActionBarUtility;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Fragment mContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +15,28 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new MovieFragment())
-                    .addToBackStack(null)
-                    .commit();
-        }
+        //for tablet
+        if (findViewById(R.id.container) != null) {
 
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container,
+                                movieDetailFragment,
+                                MovieDetailFragment.TAG_FRAGMENT)
+                        .commit();
+            }
+        } else {
+
+            if (savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, new MovieFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
 
 
     }
