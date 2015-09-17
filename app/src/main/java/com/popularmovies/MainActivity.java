@@ -16,14 +16,14 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         //for tablet
-        if (findViewById(R.id.container) != null) {
+        if (findViewById(R.id.tablet_container) != null) {
 
             MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
 
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container,
+                        .replace(R.id.tablet_container,
                                 movieDetailFragment,
                                 MovieDetailFragment.TAG_FRAGMENT)
                         .commit();
@@ -32,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MovieFragment())
+                        .replace(R.id.mobile_container, new MovieFragment())
                         .addToBackStack(null)
                         .commit();
             }
