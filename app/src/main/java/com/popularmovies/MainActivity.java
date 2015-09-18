@@ -15,11 +15,12 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //for tablet
         if (findViewById(R.id.tablet_container) != null) {
 
-            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+            ActionBarUtility.actionBarVisible(getSupportActionBar(), false);
 
+
+            MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
 
             if (savedInstanceState == null) {
                 getSupportFragmentManager().beginTransaction()

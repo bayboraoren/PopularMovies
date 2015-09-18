@@ -85,9 +85,11 @@ public class MovieFragment extends Fragment {
         }
 
         if (savedInstanceState != null) {
+
             List<Movie> movieList = savedInstanceState.getParcelableArrayList(MOVIES);
             //Add movie list directly on movie view adapter
             movieViewAdapter.addMovieList(movieList);
+
         }
 
 
@@ -107,7 +109,21 @@ public class MovieFragment extends Fragment {
                 movieDetailFragment.setArguments(args);
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.tablet_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
+
+                if (getActivity().findViewById(R.id.tablet_container) != null) {
+                    fragmentTransaction.replace(R.id.tablet_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
+                    getActivity().findViewById(R.id.tablet_container).setVisibility(View.VISIBLE);
+
+
+                   if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 2) {
+                       getActivity().getSupportFragmentManager().popBackStack();
+                    }
+
+                } else {
+                    fragmentTransaction.replace(R.id.mobile_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
+                }
+
+
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -117,6 +133,7 @@ public class MovieFragment extends Fragment {
 
         gv.setAdapter(movieViewAdapter);
         gv.setOnScrollListener(new MovieScrollListener(getActivity()));
+
 
 
         return view;

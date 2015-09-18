@@ -72,11 +72,11 @@ public class MovieUtility {
         Iterator<String> favoriteMovieList = CommonUtility.getFavoriteMovies(context);
 
 
-        do{
+        while(favoriteMovieList.hasNext()){
             String movieId = favoriteMovieList.next();
             Movie movie = service.getMovieById(movieId,apiKey);
             movieList.add(movie);
-        }while(favoriteMovieList.hasNext());
+        }
 
 
         Movies movies = new Movies();

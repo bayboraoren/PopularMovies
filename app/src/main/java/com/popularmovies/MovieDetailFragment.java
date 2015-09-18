@@ -7,7 +7,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Trailer;
 import com.popularmovies.task.MovieDetailTask;
-import com.popularmovies.utility.ActionBarUtility;
 import com.popularmovies.utility.FavoriteUtility;
 
 import org.lucasr.twowayview.TwoWayView;
@@ -125,6 +123,9 @@ public class MovieDetailFragment extends Fragment {
                 favorite.setImageResource(R.drawable.favorite_icon_selected);
             }
 
+        }else{
+            //don't show detail if you didn't choose movie
+            container.setVisibility(View.GONE);
         }
 
         return view;
@@ -145,6 +146,6 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), true);
+        //ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), true);
     }
 }
