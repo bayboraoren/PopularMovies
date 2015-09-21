@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,13 +19,14 @@ import android.widget.ProgressBar;
 import com.popularmovies.component.MovieScrollListener;
 import com.popularmovies.component.MovieViewAdapter;
 import com.popularmovies.domain.Movie;
+import com.popularmovies.event.FavoriteEvent;
 import com.popularmovies.task.MobileTask;
-import com.popularmovies.utility.ActionBarUtility;
 import com.popularmovies.utility.CommonUtility;
-import com.popularmovies.utility.FavoriteUtility;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -49,6 +49,12 @@ public class MovieFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEvent(FavoriteEvent event){
+        updateByFavorite();
     }
 
     @Override
@@ -99,6 +105,8 @@ public class MovieFragment extends Fragment {
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+
+                CommonUtility.actionBarVisible(getActivity(),true);
 
                 //remember scroll position
                 position = pos;
@@ -154,11 +162,15 @@ public class MovieFragment extends Fragment {
 
     }
 
+
+
+
     private void updateByFavorite() {
 
         ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
         MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
+        //is favorite true or false
         mobileTask.execute(true);
 
         if (isSettingsSelected) {
@@ -172,11 +184,13 @@ public class MovieFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), false);
+        CommonUtility.actionBarVisible(getActivity(),false);
 
-        if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
+
+        /*if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
             updateByFavorite();
-        }else if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
+        }*/
+        if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
             update();
         }
     }

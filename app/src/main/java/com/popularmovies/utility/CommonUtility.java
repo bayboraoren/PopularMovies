@@ -3,6 +3,7 @@ package com.popularmovies.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 
 import com.popularmovies.R;
 
@@ -26,6 +27,11 @@ public class CommonUtility {
         Map<String,String> movies = (Map<String, String>) prefs.getAll();
         return movies.keySet().iterator();
 
+    }
+
+
+    public static void actionBarVisible(Context context,boolean visible){
+        ActionBarUtility.actionBarVisible(((ActionBarActivity) context).getSupportActionBar(), visible);
     }
 
 }
