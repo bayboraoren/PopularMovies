@@ -31,6 +31,7 @@ import org.lucasr.twowayview.TwoWayView;
 public class MovieDetailFragment extends Fragment {
 
     public final static String TAG_FRAGMENT = "MOVIE_DETAIL_FRAGMENT";
+    private final static String YOUTUBE_URL = "http://www.youtube.com/watch?v=";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MovieDetailFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Trailer trailer = ((Trailer) ((TwoWayView) parent).getAdapter().getItem(position));
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + trailer.getKey())));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(YOUTUBE_URL + trailer.getKey())));
                 }
             });
 
