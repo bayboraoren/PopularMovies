@@ -22,6 +22,7 @@ import com.popularmovies.domain.Movie;
 import com.popularmovies.event.FavoriteEvent;
 import com.popularmovies.task.MobileTask;
 import com.popularmovies.utility.CommonUtility;
+import com.popularmovies.utility.FavoriteUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class MovieFragment extends Fragment {
     private int position;
     private final static String POSITION = "position";
     private final static String MOVIES = "movies";
+    public final static String IS_TABLET ="isTablet";
+    private boolean isTablet;
 
     public MovieFragment() {
 
@@ -50,11 +53,25 @@ public class MovieFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        EventBus.getDefault().register(this);
+        if (movieViewAdapter == null) {
+            movieViewAdapter = new MovieViewAdapter(getActivity());
+        }
+
+        if (savedInstanceState != null) {
+
+            List<Movie> movieList = savedInstanceState.getParcelableArrayList(MOVIES);
+            //Add movie list directly on movie view adapter
+            movieViewAdapter.addMovieList(movieList);
+
+        }
+
     }
 
     public void onEvent(FavoriteEvent event){
-        updateByFavorite();
+        //tablet and selected favorite
+        if(isTablet && CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)) {
+            updateByFavorite();
+        }
     }
 
     @Override
@@ -86,19 +103,6 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        if (movieViewAdapter == null) {
-            movieViewAdapter = new MovieViewAdapter(getActivity());
-        }
-
-        if (savedInstanceState != null) {
-
-            List<Movie> movieList = savedInstanceState.getParcelableArrayList(MOVIES);
-            //Add movie list directly on movie view adapter
-            movieViewAdapter.addMovieList(movieList);
-
-        }
-
-
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         gv = (GridView) view.findViewById(R.id.grid_view);
 
@@ -106,29 +110,35 @@ public class MovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                CommonUtility.actionBarVisible(getActivity(),true);
-
                 //remember scroll position
                 position = pos;
 
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
                 Bundle args = new Bundle();
                 args.putParcelable(Movie.PARCEABLE_KEY, movieViewAdapter.getItem(pos));
-                movieDetailFragment.setArguments(args);
+
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
 
                 if (getActivity().findViewById(R.id.tablet_container) != null) {
+
+                    isTablet = true;
+                    args.putBoolean(IS_TABLET,isTablet);
+                    movieDetailFragment.setArguments(args);
                     fragmentTransaction.replace(R.id.tablet_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
                     getActivity().findViewById(R.id.tablet_container).setVisibility(View.VISIBLE);
-
 
                    if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 2) {
                        getActivity().getSupportFragmentManager().popBackStack();
                     }
 
                 } else {
+
+                    isTablet = false;
+                    args.putBoolean(IS_TABLET,isTablet);
+                    movieDetailFragment.setArguments(args);
                     fragmentTransaction.replace(R.id.mobile_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
+
                 }
 
 
@@ -184,13 +194,13 @@ public class MovieFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        EventBus.getDefault().register(this);
         CommonUtility.actionBarVisible(getActivity(),false);
 
-
-        /*if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
+        if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
             updateByFavorite();
-        }*/
-        if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
+        } else if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
             update();
         }
     }
@@ -248,7 +258,9 @@ public class MovieFragment extends Fragment {
 
     }
 
-
-
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -20,10 +20,14 @@ import android.widget.TextView;
 
 import com.popularmovies.domain.Movie;
 import com.popularmovies.domain.Trailer;
+import com.popularmovies.event.FavoriteEvent;
 import com.popularmovies.task.MovieDetailTask;
+import com.popularmovies.utility.CommonUtility;
 import com.popularmovies.utility.FavoriteUtility;
 
 import org.lucasr.twowayview.TwoWayView;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by baybora on 8/28/15.
@@ -37,6 +41,7 @@ public class MovieDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
 
@@ -52,6 +57,11 @@ public class MovieDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         if (getArguments() != null) {
+
+
+            //action bar visibility for tablet and mobile
+            boolean actionBarVisibility = !getArguments().getBoolean(MovieFragment.IS_TABLET);
+            CommonUtility.actionBarVisible(getActivity(),actionBarVisibility);
 
             final Movie movie = getArguments().getParcelable(Movie.PARCEABLE_KEY);
 
@@ -112,11 +122,14 @@ public class MovieDetailFragment extends Fragment {
                     if (FavoriteUtility.isExist(getActivity(), movieId)) {
                         FavoriteUtility.remove(getActivity(), movieId);
                         favorite.setImageResource(R.drawable.favorite_icon);
+
                     } else {
                         FavoriteUtility.add(getActivity(), movieId);
                         favorite.setImageResource(R.drawable.favorite_icon_selected);
-
                     }
+
+                    EventBus.getDefault().post(new FavoriteEvent());
+
                 }
             });
 
@@ -147,6 +160,5 @@ public class MovieDetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //ActionBarUtility.actionBarVisible(((ActionBarActivity) getActivity()).getSupportActionBar(), true);
     }
 }

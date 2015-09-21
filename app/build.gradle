@@ -44,4 +44,7 @@ dependencies {
     //two way view
     compile 'org.lucasr.twowayview:twowayview:0.1.4'
 
+    //eventbus
+    compile 'de.greenrobot:eventbus:2.4.0'
+
 }
