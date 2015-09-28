@@ -23,7 +23,13 @@ android {
         exclude 'META-INF/NOTICE'
     }
 
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
 }
+
+
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -46,5 +52,8 @@ dependencies {
 
     //eventbus
     compile 'de.greenrobot:eventbus:2.4.0'
+
+    //butterknife
+    compile 'com.jakewharton:butterknife:7.0.1'
 
 }

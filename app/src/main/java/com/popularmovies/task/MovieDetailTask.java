@@ -32,12 +32,12 @@ public class MovieDetailTask extends AsyncTask<String,Integer,MovieDetail> {
     private ProgressBar progressBar;
     private LinearLayout reviews;
 
-    public MovieDetailTask(Context context,ImageView moviePoster, ProgressBar progressBar,TwoWayView trailerView,LinearLayout reviews){
+    public MovieDetailTask(Context context,ImageView moviePoster,ProgressBar progressBar,TwoWayView trailerView,LinearLayout reviews){
         this.context = context;
         this.moviePoster = moviePoster;
-        this.progressBar = progressBar;
         this.trailerView = trailerView;
         this.reviews = reviews;
+        this.progressBar = progressBar;
     }
 
 

@@ -27,6 +27,8 @@ import com.popularmovies.utility.FavoriteUtility;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
@@ -37,16 +39,17 @@ public class MovieFragment extends Fragment {
 
     private MovieViewAdapter movieViewAdapter;
     private boolean isSettingsSelected = false;
-    private GridView gv;
     private int position;
     private final static String POSITION = "position";
     private final static String MOVIES = "movies";
     public final static String IS_TABLET = "isTablet";
     private boolean isTablet;
 
-    public MovieFragment() {
+    @Bind(R.id.grid_view)
+    GridView gv;
+    @Bind(R.id.progress)
+    ProgressBar progressBar;
 
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +107,7 @@ public class MovieFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        gv = (GridView) view.findViewById(R.id.grid_view);
+        ButterKnife.bind(this,view);
 
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -160,7 +163,6 @@ public class MovieFragment extends Fragment {
     private void update() {
 
         if (isNetworkConnected()) {
-            ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
             MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
             mobileTask.execute(false);
@@ -177,7 +179,6 @@ public class MovieFragment extends Fragment {
     private void updateByFavorite() {
 
         if (isNetworkConnected()) {
-            ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
             MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
             //is favorite true or false
@@ -197,7 +198,7 @@ public class MovieFragment extends Fragment {
             return true;
         } else {
             String message = getActivity().getString(R.string.network_not_available);
-            CommonUtility.showToast(getActivity(),message);
+            CommonUtility.showToast(getActivity(), message);
             return false;
         }
     }
