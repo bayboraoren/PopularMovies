@@ -41,7 +41,7 @@ public class MovieFragment extends Fragment {
     private int position;
     private final static String POSITION = "position";
     private final static String MOVIES = "movies";
-    public final static String IS_TABLET ="isTablet";
+    public final static String IS_TABLET = "isTablet";
     private boolean isTablet;
 
     public MovieFragment() {
@@ -67,9 +67,9 @@ public class MovieFragment extends Fragment {
 
     }
 
-    public void onEvent(FavoriteEvent event){
+    public void onEvent(FavoriteEvent event) {
         //tablet and selected favorite
-        if(isTablet && CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)) {
+        if (isTablet && CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)) {
             updateByFavorite();
         }
     }
@@ -123,19 +123,19 @@ public class MovieFragment extends Fragment {
                 if (getActivity().findViewById(R.id.tablet_container) != null) {
 
                     isTablet = true;
-                    args.putBoolean(IS_TABLET,isTablet);
+                    args.putBoolean(IS_TABLET, isTablet);
                     movieDetailFragment.setArguments(args);
                     fragmentTransaction.replace(R.id.tablet_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
                     getActivity().findViewById(R.id.tablet_container).setVisibility(View.VISIBLE);
 
-                   if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 2) {
-                       getActivity().getSupportFragmentManager().popBackStack();
+                    if (getActivity().getSupportFragmentManager().getBackStackEntryCount() == 2) {
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
 
                 } else {
 
                     isTablet = false;
-                    args.putBoolean(IS_TABLET,isTablet);
+                    args.putBoolean(IS_TABLET, isTablet);
                     movieDetailFragment.setArguments(args);
                     fragmentTransaction.replace(R.id.mobile_container, movieDetailFragment, MovieDetailFragment.TAG_FRAGMENT);
 
@@ -153,52 +153,63 @@ public class MovieFragment extends Fragment {
         gv.setOnScrollListener(new MovieScrollListener(getActivity()));
 
 
-
         return view;
     }
 
 
     private void update() {
 
-        ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+        if (isNetworkConnected()) {
+            ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
-        MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
-        mobileTask.execute(false);
+            MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
+            mobileTask.execute(false);
 
-        if (isSettingsSelected) {
-            gv.setSelection(0);
-            isSettingsSelected = false;
+            if (isSettingsSelected) {
+                gv.setSelection(0);
+                isSettingsSelected = false;
+            }
         }
 
     }
-
-
 
 
     private void updateByFavorite() {
 
-        ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
+        if (isNetworkConnected()) {
+            ProgressBar progressBar = (ProgressBar) getActivity().findViewById(R.id.progress);
 
-        MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
-        //is favorite true or false
-        mobileTask.execute(true);
+            MobileTask mobileTask = new MobileTask(getActivity(), gv, position, progressBar);
+            //is favorite true or false
+            mobileTask.execute(true);
 
-        if (isSettingsSelected) {
-            gv.setSelection(0);
-            isSettingsSelected = false;
+            if (isSettingsSelected) {
+                gv.setSelection(0);
+                isSettingsSelected = false;
+            }
         }
 
     }
 
+
+    private boolean isNetworkConnected() {
+        if (CommonUtility.isNetworkConnected(getActivity())) {
+            return true;
+        } else {
+            String message = getActivity().getString(R.string.network_not_available);
+            CommonUtility.showToast(getActivity(),message);
+            return false;
+        }
+    }
 
     @Override
     public void onStart() {
         super.onStart();
 
         EventBus.getDefault().register(this);
-        CommonUtility.actionBarVisible(getActivity(),false);
+        CommonUtility.actionBarVisible(getActivity(), false);
 
-        if(CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)){
+        if (CommonUtility.getPreferredSortBy(getActivity()).equals(FavoriteUtility.FAVORITE)) {
             updateByFavorite();
         } else if (movieViewAdapter.getItems().size() == 0) { //get movie list first time
             update();
@@ -213,9 +224,9 @@ public class MovieFragment extends Fragment {
             if (data.getExtras().getBoolean(SettingsActivity.SORT_BY_CHANGED)) {
 
                 String sortBy = CommonUtility.getPreferredSortBy(getActivity());
-                if(sortBy.equals(getString(R.string.pref_sort_by_favorite))){
+                if (sortBy.equals(getString(R.string.pref_sort_by_favorite))) {
                     updateByFavorite();
-                }else{
+                } else {
                     update();
                 }
 
