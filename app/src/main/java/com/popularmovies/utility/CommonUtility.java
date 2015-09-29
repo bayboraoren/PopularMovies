@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.popularmovies.R;
@@ -36,7 +36,7 @@ public class CommonUtility {
 
 
     public static void actionBarVisible(Context context, boolean visible) {
-        ActionBarUtility.actionBarVisible(((ActionBarActivity) context).getSupportActionBar(), visible);
+        ActionBarUtility.actionBarVisible(((AppCompatActivity) context).getSupportActionBar(), visible);
     }
 
     public static boolean isNetworkConnected(Context context) {
