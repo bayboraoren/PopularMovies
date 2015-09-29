@@ -1,13 +1,11 @@
 package com.popularmovies;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.popularmovies.domain.Movie;
@@ -54,7 +51,7 @@ public class MovieDetailFragment extends Fragment {
     @Bind(R.id.movie_release_date)
     TextView releaseDate;
     @Bind(R.id.movie_vote)
-    RatingBar voteRatingBar;
+    AppCompatRatingBar voteRatingBar;
     @Bind(R.id.movie_synopsis)
     TextView synopsis;
     @Bind(R.id.favorite)
@@ -110,10 +107,6 @@ public class MovieDetailFragment extends Fragment {
             //Vote
             float rating = 5 * movie.getVoteAverage().floatValue() / 10;
             voteRatingBar.setRating(rating);
-
-            //RatingBar Color Black
-            LayerDrawable stars = (LayerDrawable) voteRatingBar.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
 
             //Synopsis
             synopsis.setText(movie.getOverview());
